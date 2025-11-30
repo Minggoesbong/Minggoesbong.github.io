@@ -8,5 +8,50 @@
 </head>
 <body>
 <h1>Please input your birthday</h1>
+  <!-- Mouse + Gravity Slider -->
+<section id="slider-section">
+<h2>Interactive Gravity Slider</h2>
+<div id="slider" class="slider-container">
+<img src="https://picsum.photos/id/1015/800/600">
+<img src="https://picsum.photos/id/1025/800/600">
+<img src="https://picsum.photos/id/1035/800/600">
+<img src="https://picsum.photos/id/1045/800/600">
+</div>
+</section>
+</main>
+
+
+<footer>
+<p>© 2025 My GitHub Pages Site</p>
+</footer>
+<script>
+const slider = document.getElementById("slider");
+let velocity = 0;
+let position = 0;
+
+
+document.addEventListener("mousemove", (e) => {
+const mouseX = e.clientX / window.innerWidth;
+const maxTranslate = slider.scrollWidth - window.innerWidth;
+const target = -mouseX * maxTranslate;
+velocity += (target - position) * 0.02; // gravity-like pull
+});
+
+
+function animate() {
+position += velocity;
+velocity *= 0.92; // friction
+
+
+const maxTranslate = slider.scrollWidth - window.innerWidth;
+position = Math.max(-maxTranslate, Math.min(0, position));
+
+
+slider.style.transform = `translateX(${position}px)`;
+requestAnimationFrame(animate);
+}
+
+
+animate();
 </body>
 </html>
