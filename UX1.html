@@ -1,57 +1,96 @@
-<!-- UX1.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Birthday UX</title>
+<title>Super Annoying Time Slider</title>
+<style>
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: black;
+overflow-x: hidden;
+color: #fff;
+}
+header {
+text-align: center;
+padding: 1rem;
+font-size: 2rem;
+font-weight: bold;
+animation: flash 0.05s infinite alternate;
+}
+@keyframes flash {
+0% {background: red; color: lime;}
+25% {background: lime; color: blue;}
+50% {background: yellow; color: purple;}
+75% {background: cyan; color: magenta;}
+100% {background: red; color: lime;}
+}
+.slider-container {
+display: flex;
+flex-wrap: nowrap;
+overflow-x: scroll;
+width: 100%;
+height: 80vh;
+scroll-behavior: smooth;
+}
+.date-block {
+flex: 0 0 auto;
+width: 180px;
+height: 80vh;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 1rem;
+font-weight: bold;
+margin: 2px;
+border: 2px solid white;
+animation: jitter 0.2s infinite alternate;
+transform-origin: center center;
+user-select: none;
+}
+@keyframes jitter {
+0% {transform: rotate(-10deg);}
+25% {transform: rotate(15deg);}
+50% {transform: rotate(-20deg);}
+75% {transform: rotate(10deg);}
+100% {transform: rotate(5deg);}
+}
+</style>
 </head>
 <body>
-<h1>Please input your birthday</h1>
-  <!-- Mouse + Gravity Slider -->
-<section id="slider-section">
-<h2>Interactive Gravity Slider</h2>
-<div id="slider" class="slider-container">
-<img src="https://picsum.photos/id/1015/800/600">
-<img src="https://picsum.photos/id/1025/800/600">
-<img src="https://picsum.photos/id/1035/800/600">
-<img src="https://picsum.photos/id/1045/800/600">
-</div>
-</section>
-</main>
-
-
-<footer>
-<p>© 2025 My GitHub Pages Site</p>
-</footer>
+<header>SUPER ANNOYING TIME SLIDER 1500 → 2500</header>
+<div id="slider" class="slider-container"></div>
 <script>
-const slider = document.getElementById("slider");
-let velocity = 0;
-let position = 0;
-
-
-document.addEventListener("mousemove", (e) => {
-const mouseX = e.clientX / window.innerWidth;
-const maxTranslate = slider.scrollWidth - window.innerWidth;
-const target = -mouseX * maxTranslate;
-velocity += (target - position) * 0.02; // gravity-like pull
-});
-
-
+const slider = document.getElementById('slider');
+let yearStart = 1500;
+let yearEnd = 2500;
+let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let i = 0;
+for (let y = yearStart; y <= yearEnd; y++) {
+for (let m = 0; m < 12; m++) {
+let daysInMonth = 28 + Math.floor(Math.random() * 3);
+for (let d = 1; d <= daysInMonth; d++) {
+const block = document.createElement('div');
+block.className = 'date-block';
+block.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+block.style.color = `hsl(${Math.random()*360}, 100%, 10%)`;
+block.textContent = `${y}-${months[m]}-${d}`;
+slider.appendChild(block);
+i++;
+}
+}
+}
+// Super twitchy scroll
+let pos = 0;
 function animate() {
-position += velocity;
-velocity *= 0.92; // friction
-
-
-const maxTranslate = slider.scrollWidth - window.innerWidth;
-position = Math.max(-maxTranslate, Math.min(0, position));
-
-
-slider.style.transform = `translateX(${position}px)`;
+pos += (Math.random()*20 - 10); // jittery speed left/right
+if(pos > slider.scrollWidth - window.innerWidth) pos = 0;
+if(pos < 0) pos = slider.scrollWidth - window.innerWidth;
+slider.scrollLeft = pos;
 requestAnimationFrame(animate);
 }
-
-
 animate();
+</script>
 </body>
-</html>
+</
